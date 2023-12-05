@@ -17,7 +17,6 @@ Project is created with:
 ### Deploying locally on minikube using Helm chart
 To install minikube, follow [installing_minukube.md](minikube/installing_minukube.md). Once minikube is installed, use the below commands (the installation uses Helm charts for deploying to k8s)
 
-#### Helm chart source: https://helm.open-metadata.org/
 #### Create Kubernetes Secrets required for Helm Charts
 ```
 kubectl create secret generic mysql-secrets --from-literal=openmetadata-mysql-password=openmetadata_password
@@ -41,6 +40,14 @@ Bitnami MySQL (helm chart version 9.7.1)
 ElasticSearch (helm chart version 7.16.3)
 Airflow (helm chart version 8.6.1)
 
+In a few minutues, the pods should be in ready state. To check for any failures, get the pods in the dev namespace:
+```
+kubectl get pods --namespace a1b9b0-dev
+```
+To view the pod logs
+```
+kubectl logs <POD_NAME> --namespace a1b9b0-dev
+```
 #### Install OpenMetadata Helm Chart
 Deploy OpenMetadata Application by running the following command -
 ```

@@ -13,14 +13,14 @@ Minikube provides an easy way to spin up a single node Kubernetes cluster on a l
 
 ## Setup
 ##### 1. Download the installer from https://storage.googleapis.com/minikube/releases/latest/minikube-installer.exe
-##### 2. Start minikube and override of default cpu and memory
+##### 2. Start minikube and override the default cpu and memory. I recommend the below as minimum
 ```
-minikube start --memory=4096 --cpus =4
+minikube start --memory=6144 cpus=8
 ```
 ##### 3. Create a dev namespace to align with Openshift. Switch context to the namespace
 ```
-kubectl create -f adminnamespace-dev.yaml
-kubectl config set-context --current --namespace=development
+kubectl create -f minikube\adminnamespace-dev.yaml
+kubectl config set-context --current --namespace=a1b9b0-dev
 ```
 ##### 4. Check namespace in current context
 ```
