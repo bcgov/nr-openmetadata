@@ -14,7 +14,7 @@ Project is created with:
 * OpenMetadata
 	
 ## Setup
-To run this project locally, install it locally using minikube. To install minikube, follow installing_minukube.md. Once minikube is installed, use the below commands:
+To run this project locally, install it locally using minikube. To install minikube, follow [installing_minukube.md](minikube/installing_minukube.md). Once minikube is installed, use the below commands:
 
 ```
 $ minikube start --memory=4096 --cpus =4
