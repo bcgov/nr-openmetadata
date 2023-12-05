@@ -19,17 +19,17 @@ To run this project locally, install it locally using minikube. To install minik
 
 ##### Start minikube and override of default cpu and memory
 ```
-$ minikube start --memory=4096 --cpus =4
+minikube start --memory=4096 --cpus =4
 ```
 ##### Create a dev namespace to align with Openshift. Switch context to the namespace
 ```
-$ kubectl create -f adminnamespace-dev.yaml
-$ kubectl config set-context --current --namespace=development
+kubectl create -f adminnamespace-dev.yaml
+kubectl config set-context --current --namespace=development
 ```
 
 ##### Check current context
 ```
-$ kubectl config view
+kubectl config view
 ```
 
 Output should show 
@@ -45,10 +45,8 @@ minikube dashboard
 ## Helm chart sourced from
 
 ```
-$ 
-$ minikube start --memory=4096 --cpus =4
-$ kubectl create -f adminnamespace-dev.yaml
-$ 
+minikube start --memory=4096 --cpus =4
+kubectl create -f adminnamespace-dev.yaml
 ```
 
 
