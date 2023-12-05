@@ -13,7 +13,6 @@ Minikube provides an easy way to spin up a single node Kubernetes cluster on a l
 
 ## Setup
 ##### 1. Download the installer from https://storage.googleapis.com/minikube/releases/latest/minikube-installer.exe
-
 ##### 2. Start minikube and override of default cpu and memory
 ```
 minikube start --memory=4096 --cpus =4
@@ -23,16 +22,10 @@ minikube start --memory=4096 --cpus =4
 kubectl create -f adminnamespace-dev.yaml
 kubectl config set-context --current --namespace=development
 ```
-##### 4. Check current context
+##### 4. Check namespace in current context
 ```
-kubectl config view
+kubectl config view --minify -o jsonpath='{..namespace}'
 ```
-Output should show 
-```
-   namespace: development
-    user: minikube
-  name: minikube
-
-```
+'a1b9b0-dev'
 ##### 5. To view all resources in a gui, kick off the minikube dashboard
 minikube dashboard
