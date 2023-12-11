@@ -68,6 +68,38 @@ helm uninstall openmetadata-dependencies
 ```
 
 ## Deploying to OpenShift
+To deploy to OpenShift, using OC commands make sure Helm cli is installed on your local machine.
+```
+brew install helm
+```
+### First install Dependencies
+Source: https://github.com/open-metadata/openmetadata-helm-charts/tree/main/charts/deps
+
+#### Create secrets
+```
+oc create secret generic airflow-mysql-secrets --from-literal=airflow-mysql-password=airflow_pass
+```
+#### Add Helm repo to OS
+```
+helm repo add open-metadata https://helm.open-metadata.org
+```
+#### Deploy dependencies to OS
+```
+helm install openmetadata-dependencies open-metadata/openmetadata-dependencies
+```
+If you see the below error then get admin access to the dev namespace
+Issues:  User "vikas.grover@gov.bc.ca" cannot get resource "roles" in API group "rbac.authorization.k8s.io" in the namespace "a1b9b0-dev"
+
+### Install OpenMetadata
+#### Create default Secrets
+```
+oc create secret generic mysql-secrets --from-literal=openmetadata-mysql-password=openmetadata_password
+oc create secret generic airflow-secrets --from-literal=openmetadata-airflow-password=admin
+```
+#### Deploy Helm chart
+```
+helm install openmetadata open-metadata/openmetadata
+```
 
 ## Creating OpenShift ConfigMaps 
 
