@@ -13,7 +13,6 @@ openmetadata:
     # Values can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL
     logLevel: INFO
     clusterName: openmetadata
-    maskPasswordsApi: false
     openmetadata:
       host: openmetadata
       # URI to use with OpenMetadata Alerts Integrations
@@ -263,10 +262,10 @@ networkPolicy:
   #   callbackUrl: "<callback_url>"
 
 image:
-  repository: docker.getcollate.io/openmetadata/server
+  repository: artifacts.developer.gov.bc.ca/docker-remote/openmetadata/server
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
-  pullPolicy: "Always"
+  pullPolicy: "IfNotPresent"
 
 sidecars: []
 # - name: "busybox"
@@ -282,7 +281,8 @@ sidecars: []
 #     mountPath: /usr/share/extras
 #     readOnly: true
 
-imagePullSecrets: []
+imagePullSecrets:
+  - name: "artifactory-pull"
 nameOverride: ""
 fullnameOverride: "openmetadata"
 

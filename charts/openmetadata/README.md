@@ -14,7 +14,6 @@ kubectl create secret generic airflow-secrets --from-literal=openmetadata-airflo
 ```
 
 The above commands sets the passwords as an example. Change to any password of choice.
-
 Run the following command to install openmetadata with default configuration.
 
 ```
@@ -23,7 +22,6 @@ helm install openmetadata open-metadata/openmetadata
 ```
 
 If the default configuration is not applicable, you can update the values listed below in a `values.yaml` file and run
-
 ```
 helm install openmetadata open-metadata/openmetadata --values <<path-to-values-file>>
 ```
@@ -205,9 +203,9 @@ helm install openmetadata open-metadata/openmetadata --values <<path-to-values-f
 | extraVolumeMounts | Templatable string of additional `volumeMounts` to be passed to the `tpl` function | `[]` |
 | fullnameOverride | string | `"openmetadata"` |
 | image.pullPolicy | string | `"Always"` |
-| image.repository | string | `"docker.getcollate.io/openmetadata/server"` |
+| image.repository | string | `"artifacts.developer.gov.bc.ca/docker-remote/openmetadata/server"` |
 | image.tag | string | `1.2.2` |
-| imagePullSecrets | list | `[]` |
+| imagePullSecrets | list | `["artifactory-pull"]` |
 | ingress.annotations | object | `{}` |
 | ingress.className | string | `""` |
 | ingress.enabled | bool | `false` |
