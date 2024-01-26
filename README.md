@@ -98,8 +98,14 @@ oc create secret generic airflow-secrets --from-literal=openmetadata-airflow-pas
 ```
 #### Deploy Helm chart
 ```
-helm install openmetadata open-metadata/openmetadata
+helm install openmetadata-dependencies open-metadata/openmetadata-dependencies --values charts/deps/values.yaml
+helm install openmetadata open-metadata/openmetadata --values charts/openmetadata/values.yaml
 ```
 
 ## Creating OpenShift ConfigMaps 
 
+## Errors encountered
+
+
+
+create Pod mysql-0 in StatefulSet mysql failed error: pods "mysql-0" is forbidden: unable to validate against any security context constraint: [provider "trident-controller": Forbidden: not usable by user or serviceaccount, provider "anyuid": Forbidden: not usable by user or serviceaccount, provider "pipelines-scc": Forbidden: not usable by user or serviceaccount, provider restricted-v2: .spec.securityContext.fsGroup: Invalid value: []int64{1001}: 1001 is not an allowed group, provider restricted-v2: .containers[0].runAsUser: Invalid value: 1001: must be in the ranges: [1001900000, 1001909999], provider restricted: .spec.securityContext.fsGroup: Invalid value: []int64{1001}: 1001 is not an allowed group, provider restricted: .containers[0].runAsUser: Invalid value: 1001: must be in the ranges: [1001900000, 1001909999], provider "nonroot-v2": Forbidden: not usable by user or serviceaccount, provider "nonroot": Forbidden: not usable by user or serviceaccount, provider "hostmount-anyuid": Forbidden: not usable by user or serviceaccount, provider "elasticsearch-scc": Forbidden: not usable by user or serviceaccount, provider "log-collector-scc": Forbidden: not usable by user or serviceaccount, provider "machine-api-termination-handler": Forbidden: not usable by user or serviceaccount, provider "hostnetwork-v2": Forbidden: not usable by user or serviceaccount, provider "hostnetwork": Forbidden: not usable by user or serviceaccount, provider "hostaccess": Forbidden: not usable by user or serviceaccount, provider "trident-node-linux": Forbidden: not usable by user or serviceaccount, provider "node-exporter": Forbidden: not usable by user or serviceaccount, provider "privileged": Forbidden: not usable by user or serviceaccount]

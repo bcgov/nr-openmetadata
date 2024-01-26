@@ -101,7 +101,9 @@ config:
 # Extra environment variables to append to this nodeGroup
 # This will be appended to the current 'env:' key. You can use any of the kubernetes env
 # syntax here
-extraEnvs: []
+extraEnvs:
+  - name: SKIP_INIT_CONTAINER
+    value: "true"
 #  - name: MY_ENVIRONMENT_VAR
 #    value: the_value_goes_here
 
@@ -124,7 +126,7 @@ hostAliases: []
 #   - "bar.local"
 
 image:
-  repository: "opensearchproject/opensearch"
+  repository: "vgrover2/opensearch:v1"
   # override image tag, which is .Chart.AppVersion by default
   tag: ""
   pullPolicy: "IfNotPresent"
@@ -170,7 +172,18 @@ rbac:
   serviceAccountName: ""
 
 podSecurityPolicy:
-  create: false
+  create: true
+  name: "openmetadataSecurity"
+  spec:
+    privileged: false
+    fsGroup:
+      rule: 1001
+    runAsUser:
+      rule: 1000670000
+    seLinux:
+      rule: 1000670000
+    supplementalGroups:
+      rule: 1000670000
 
 persistence:
   enabled: false
@@ -353,7 +366,8 @@ readinessProbe:
 ##
 schedulerName: ""
 
-imagePullSecrets: []
+imagePullSecrets:
+    - name: openmetadata-imagepull
 nodeSelector: {}
 tolerations: []
 

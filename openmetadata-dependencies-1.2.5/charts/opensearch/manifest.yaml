@@ -1,24 +1,4 @@
 ---
-# Source: opensearch/templates/poddisruptionbudget.yaml
-apiVersion: policy/v1
-kind: PodDisruptionBudget
-metadata:
-  name: "opensearch-cluster-master-pdb"
-  labels:
-    helm.sh/chart: opensearch-2.17.0
-    app.kubernetes.io/name: opensearch
-    app.kubernetes.io/instance: opensearch
-    app.kubernetes.io/version: "2.11.1"
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/component: opensearch-cluster-master
-    DataClass: Low
-spec:
-  maxUnavailable: 1
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: opensearch
-      app.kubernetes.io/instance: opensearch
----
 # Source: opensearch/templates/configmap.yaml
 apiVersion: v1
 kind: ConfigMap
@@ -183,9 +163,10 @@ spec:
         configchecksum: 0fb2f732657b4f20c024776799b6491196821227f6f967e8b3c9f17e5fa0401
     spec:
       securityContext:
-        fsGroup: 1000
-        runAsUser: 1000
+        fsGroup: 1000670000
+        runAsUser: 1000670000
       automountServiceAccountToken: false
+      
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -211,14 +192,19 @@ spec:
       containers:
       - name: "opensearch"
         securityContext:
+          allowPrivilegeEscalation: false
           capabilities:
             drop:
             - ALL
           runAsNonRoot: true
-          runAsUser: 1000
+          runAsUser: 1000670000
+          seccompProfile:
+            type: RuntimeDefault
 
-        image: "opensearchproject/opensearch:2.11.1"
-        imagePullPolicy: "IfNotPresent"
+        image: artifacts.developer.gov.bc.ca/va1b-general-docker-local/opensearch:v1
+        imagePullPolicy: "Always"
+        imagePullSecrets:
+            - name: artif-docker-registry-pull
         readinessProbe:
           failureThreshold: 3
           periodSeconds: 5
@@ -260,6 +246,8 @@ spec:
           value: "master,ingest,data,remote_cluster_client,"
         - name: discovery.type
           value: "single-node"
+        - name: SKIP_INIT_CONTAINER
+          value: "true"
         volumeMounts:
         - name: config
           mountPath: /usr/share/opensearch/config/opensearch.yml
