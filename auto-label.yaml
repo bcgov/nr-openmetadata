@@ -1,0 +1,26 @@
+apiVersion: kyverno.io/v1
+kind: Policy
+metadata:
+  annotations:
+    policies.kyverno.io/subject: Label
+    policies.kyverno.io/title: Add Labels to all OpenMetadata pods
+  name: add-labels
+spec:
+  background: false
+  failurePolicy: Ignore
+  validationFailureAction: audit
+  rules:
+  - match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+          selector:
+            matchLabels:
+              ## WIP ##
+    mutate:
+      patchStrategicMerge:
+        metadata:
+          labels:
+            DataClass: Medium
+    name: add-data-class-label
