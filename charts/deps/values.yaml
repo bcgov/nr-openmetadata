@@ -15,7 +15,7 @@ mysql:
   primary:
     extraFlags: "--sort_buffer_size=10M"
     persistence:
-      size: 1Gi
+      size: 50Gi
     service:
       nodePort: 3306
   initdbScripts:
@@ -40,7 +40,7 @@ opensearch:
   imagePullPolicy: Always
   opensearchJavaOpts: "-Xmx1g -Xms1g"
   persistence:
-    size: 3Gi
+    size: 30Gi
   protocol: http
   config:
     opensearch.yml: |
@@ -60,11 +60,9 @@ airflow:
   enabled: true
   airflow:
     image:
-      repository: artifacts.developer.gov.bc.ca/docker-remote/openmetadata/server
-      tag: 1.2.2
+      repository: docker.getcollate.io/openmetadata/ingestion
+      tag: 1.2.5
       pullPolicy: "IfNotPresent"
-      imagePullSecrets:
-       - name: "artifactory-pull"
     executor: "KubernetesExecutor"
     config:
       # This is required for OpenMetadata UI to fetch status of DAGs

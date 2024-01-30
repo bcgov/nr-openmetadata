@@ -14,6 +14,7 @@ kubectl create secret generic airflow-secrets --from-literal=openmetadata-airflo
 ```
 
 The above commands sets the passwords as an example. Change to any password of choice.
+
 Run the following command to install openmetadata with default configuration.
 
 ```
@@ -22,6 +23,7 @@ helm install openmetadata open-metadata/openmetadata
 ```
 
 If the default configuration is not applicable, you can update the values listed below in a `values.yaml` file and run
+
 ```
 helm install openmetadata open-metadata/openmetadata --values <<path-to-values-file>>
 ```
@@ -29,8 +31,9 @@ helm install openmetadata open-metadata/openmetadata --values <<path-to-values-f
 
 ## Openmetadata Config Chart Values
 
-| Key | Type | Default | Conf/Openmetadata.yaml | 
+| Key | Type | Default | Conf/Openmetadata.yaml |
 |-----|------|---------| ---------------------- |
+| openmetadata.config.authentication.enabled | bool | `true` | |
 | openmetadata.config.authentication.provider | string | `basic` | AUTHENTICATION_PROVIDER |
 | openmetadata.config.authentication.publicKeys | list | `[http://openmetadata:8585/api/v1/system/config/jwks]` | AUTHENTICATION_PUBLIC_KEYS |
 | openmetadata.config.authentication.authority | string | `https://accounts.google.com` | AUTHENTICATION_AUTHORITY |
@@ -62,7 +65,7 @@ helm install openmetadata open-metadata/openmetadata --values <<path-to-values-f
 | openmetadata.config.authentication.saml.idp.entityId | string | `Empty` | SAML_IDP_ENTITY_ID |
 | openmetadata.config.authentication.saml.idp.ssoLoginUrl |  string | `Empty` | SAML_IDP_SSO_LOGIN_URL |
 | openmetadata.config.authentication.saml.idp.idpX509Certificate.secretRef | string | `Empty` | SAML_IDP_CERTIFICATE |
-| openmetadata.config.authentication.saml.idp.idpX509Certificate.secretKey |  string | `Empty` | SAML_IDP_CERTIFICATE | 
+| openmetadata.config.authentication.saml.idp.idpX509Certificate.secretKey |  string | `Empty` | SAML_IDP_CERTIFICATE |
 | openmetadata.config.authentication.saml.idp.authorityUrl | string | `http://openmetadata:8585/api/v1/saml/login` | SAML_AUTHORITY_URL |
 | openmetadata.config.authentication.saml.idp.nameId | string | `urn:oasis:names:tc:SAML:2.0:nameid-format:emailAddress` | SAML_IDP_NAME_ID |
 | openmetadata.config.authentication.saml.sp.entityId | string | `http://openmetadata:8585/api/v1/saml/metadata` | SAML_SP_ENTITY_ID |
@@ -84,6 +87,7 @@ helm install openmetadata open-metadata/openmetadata --values <<path-to-values-f
 | openmetadata.config.authentication.saml.security.keyStoreAlias.secretKey | string  | `Empty` | SAML_KEYSTORE_ALIAS |
 | openmetadata.config.authentication.saml.security.keyStorePassword.secretRef | string  | `Empty` | SAML_KEYSTORE_PASSWORD |
 | openmetadata.config.authentication.saml.security.keyStorePassword.secretKey | string  | `Empty` | SAML_KEYSTORE_PASSWORD |
+| openmetadata.config.authorizer.enabled | bool | `true` | |
 | openmetadata.config.authorizer.allowedEmailRegistrationDomains | list | `[all]` | AUTHORIZER_ALLOWED_REGISTRATION_DOMAIN |
 | openmetadata.config.authorizer.className | string | `org.openmetadata.service.security.DefaultAuthorizer` | AUTHORIZER_CLASS_NAME |
 | openmetadata.config.authorizer.containerRequestFilter | string | `org.openmetadata.service.security.JwtFilter` | AUTHORIZER_REQUEST_FILTER |
@@ -100,6 +104,7 @@ helm install openmetadata open-metadata/openmetadata --values <<path-to-values-f
 | openmetadata.config.airflow.sslCertificatePath | string | `/no/path` | PIPELINE_SERVICE_CLIENT_SSL_CERT_PATH |
 | openmetadata.config.airflow.verifySsl | string | `no-ssl` | PIPELINE_SERVICE_CLIENT_VERIFY_SSL |
 | openmetadata.config.clusterName | string | `openmetadata` | OPENMETADATA_CLUSTER_NAME |
+| openmetadata.config.database.enabled | bool | `true` | |
 | openmetadata.config.database.auth.password.secretRef | string | `mysql-secrets` | DB_USER_PASSWORD |
 | openmetadata.config.database.auth.password.secretKey | string | `openmetadata-mysql-password` | DB_USER_PASSWORD |
 | openmetadata.config.database.auth.username | string | `openmetadata_user` | DB_USER|
@@ -109,6 +114,7 @@ helm install openmetadata open-metadata/openmetadata --values <<path-to-values-f
 | openmetadata.config.database.driverClass| string | `com.mysql.cj.jdbc.Driver` | DB_DRIVER_CLASS |
 | openmetadata.config.database.host | string | `mysql` | DB_HOST |
 | openmetadata.config.database.port | int | 3306 | DB_PORT |
+| openmetadata.config.elasticsearch.enabled | bool | `true` | |
 | openmetadata.config.elasticsearch.auth.enabled | bool | `false` | |
 | openmetadata.config.elasticsearch.auth.username | string | `elasticsearch` | ELASTICSEARCH_USER |
 | openmetadata.config.elasticsearch.auth.password.secretRef | string | `elasticsearch-secrets` | ELASTICSEARCH_PASSWORD |
@@ -123,6 +129,7 @@ helm install openmetadata open-metadata/openmetadata --values <<path-to-values-f
 | openmetadata.config.elasticsearch.trustStore.path | string | `Empty String` | ELASTICSEARCH_TRUST_STORE_PATH |
 | openmetadata.config.elasticsearch.trustStore.password.secretRef | string | `elasticsearch-truststore-secrets` | ELASTICSEARCH_TRUST_STORE_PASSWORD |
 | openmetadata.config.elasticsearch.trustStore.password.secretKey | string | `openmetadata-elasticsearch-truststore-password` | ELASTICSEARCH_TRUST_STORE_PASSWORD |
+| openmetadata.config.eventMonitor.enabled | bool | `true` | |
 | openmetadata.config.eventMonitor.type | string | `prometheus` | EVENT_MONITOR |
 | openmetadata.config.eventMonitor.batchSize | int | `10` | EVENT_MONITOR_BATCH_SIZE |
 | openmetadata.config.eventMonitor.pathPattern | list | `[/api/v1/tables/*,/api/v1/health-check]` | EVENT_MONITOR_PATH_PATTERN |
@@ -136,13 +143,15 @@ helm install openmetadata open-metadata/openmetadata --values <<path-to-values-f
 | openmetadata.config.jwtTokenConfiguration.jwtissuer | string | `open-metadata.org` | JWT_ISSUER |
 | openmetadata.config.jwtTokenConfiguration.keyId | string | `Gb389a-9f76-gdjs-a92j-0242bk94356` | JWT_KEY_ID |
 | openmetadata.config.logLevel | string | `INFO` | LOG_LEVEL |
-| openmetadata.config.maskPasswordsApi | bool | `false` | MASK_PASSWORDS_API |
 | openmetadata.config.openmetadata.adminPort | int | 8586 | SERVER_ADMIN_PORT |
 | openmetadata.config.openmetadata.host | string | `openmetadata` | OPENMETADATA_SERVER_URL |
 | openmetadata.config.openmetadata.port | int | 8585 | SERVER_PORT |
 | openmetadata.config.pipelineServiceClientConfig.auth.password.secretRef | string | `airflow-secrets` | AIRFLOW_PASSWORD |
 | openmetadata.config.pipelineServiceClientConfig.auth.password.secretKey | string | `openmetadata-airflow-password` | AIRFLOW_PASSWORD |
 | openmetadata.config.pipelineServiceClientConfig.auth.username | string | `admin` | AIRFLOW_USERNAME |
+| openmetadata.config.pipelineServiceClientConfig.auth.trustStorePath | string | `` | AIRFLOW_TRUST_STORE_PATH |
+| openmetadata.config.pipelineServiceClientConfig.auth.trustStorePassword.secretRef | string | `` | AIRFLOW_TRUST_STORE_PASSWORD |
+| openmetadata.config.pipelineServiceClientConfig.auth.trustStorePassword.secretKey | string | `` | AIRFLOW_TRUST_STORE_PASSWORD |
 | openmetadata.config.pipelineServiceClientConfig.apiEndpoint | string | `http://openmetadata-dependencies-web:8080` | PIPELINE_SERVICE_CLIENT_ENDPOINT |
 | openmetadata.config.pipelineServiceClientConfig.className | string | `org.openmetadata.service.clients.pipeline.airflow.AirflowRESTClient` | PIPELINE_SERVICE_CLIENT_CLASS_NAME |
 | openmetadata.config.pipelineServiceClientConfig.enabled | bool | `true` | PIPELINE_SERVICE_CLIENT_ENABLED |
@@ -150,8 +159,9 @@ helm install openmetadata open-metadata/openmetadata --values <<path-to-values-f
 | openmetadata.config.pipelineServiceClientConfig.ingestionIpInfoEnabled | bool | `false` | PIPELINE_SERVICE_IP_INFO_ENABLED |
 | openmetadata.config.pipelineServiceClientConfig.metadataApiEndpoint | string | `http://openmetadata:8585/api` | SERVER_HOST_API_URL |
 | openmetadata.config.pipelineServiceClientConfig.sslCertificatePath | string | `/no/path` | PIPELINE_SERVICE_CLIENT_SSL_CERT_PATH |
-| openmetadata.config.pipelineServiceClientConfig.verifySsl | string | `no-ssl` | PIPELINE_SERVICE_CLIENT_VERIFY_SSL | 
+| openmetadata.config.pipelineServiceClientConfig.verifySsl | string | `no-ssl` | PIPELINE_SERVICE_CLIENT_VERIFY_SSL |
 | openmetadata.config.pipelineServiceClientConfig.hostIp | string | `Empty` | PIPELINE_SERVICE_CLIENT_HOST_IP |
+| openmetadata.config.secretsManager.enabled | bool | `true` | |
 | openmetadata.config.secretsManager.provider | string | `noop` | SECRET_MANAGER |
 | openmetadata.config.secretsManager.additionalParameters.enabled | bool | `false` | |
 | openmetadata.config.secretsManager.additionalParameters.accessKeyId.secretRef | string | `aws-access-key-secret` | OM_SM_ACCESS_KEY_ID |
@@ -171,6 +181,7 @@ helm install openmetadata open-metadata/openmetadata --values <<path-to-values-f
 | openmetadata.config.smtpConfig.username | string | `Empty String` | SMTP_SERVER_USERNAME |
 | openmetadata.config.upgradeMigrationConfigs.force | bool | `false` |  |
 | openmetadata.config.upgradeMigrationConfigs.migrationLimitParam | int | `1200` | MIGRATION_LIMIT_PARAM |
+| openmetadata.config.web.enabled | bool | `true` | |
 | openmetadata.config.web.contentTypeOptions.enabled | bool | `false` | WEB_CONF_CONTENT_TYPE_OPTIONS_ENABLED |
 | openmetadata.config.web.csp.enabled | bool | `false` | WEB_CONF_XSS_CSP_ENABLED |
 | openmetadata.config.web.csp.policy | string | `default-src 'self` | WEB_CONF_XSS_CSP_POLICY |
@@ -203,9 +214,9 @@ helm install openmetadata open-metadata/openmetadata --values <<path-to-values-f
 | extraVolumeMounts | Templatable string of additional `volumeMounts` to be passed to the `tpl` function | `[]` |
 | fullnameOverride | string | `"openmetadata"` |
 | image.pullPolicy | string | `"Always"` |
-| image.repository | string | `"artifacts.developer.gov.bc.ca/docker-remote/openmetadata/server"` |
-| image.tag | string | `1.2.2` |
-| imagePullSecrets | list | `["artifactory-pull"]` |
+| image.repository | string | `"docker.getcollate.io/openmetadata/server"` |
+| image.tag | string | `1.2.5` |
+| imagePullSecrets | list | `[]` |
 | ingress.annotations | object | `{}` |
 | ingress.className | string | `""` |
 | ingress.enabled | bool | `false` |
@@ -237,9 +248,11 @@ helm install openmetadata open-metadata/openmetadata --values <<path-to-values-f
 | serviceAccount.annotations | object | `{}` |
 | serviceAccount.create | bool | `true` |
 | serviceAccount.name | string | `nil` |
+| automountServiceAccountToken| bool | `true` |
 | serviceMonitor.annotations | object | `{}` |
 | serviceMonitor.enabled | bool | `false` |
 | serviceMonitor.interval | string | `30s` |
+| serviceMonitor.labels | object | `{}` |
 | sidecars | list | `[]` |
 | startupProbe.periodSeconds | int | `60` |
 | startupProbe.failureThreshold | int | `5` |
@@ -248,3 +261,6 @@ helm install openmetadata open-metadata/openmetadata --values <<path-to-values-f
 | startupProbe.successThreshold | int | `1` |
 | tolerations | list | `[]` |
 | networkPolicy.enabled | bool |`false` |
+| podDisruptionBudget.enabled | bool | `false` |
+| podDisruptionBudget.config.maxUnavailable | String | `1` |
+| podDisruptionBudget.config.minAvailable | String | `1` |
