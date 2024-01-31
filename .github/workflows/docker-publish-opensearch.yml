@@ -5,10 +5,10 @@ on:
     branches: [ "security-context-changes" ]
 
 env:
-  # Abi: pull ghcr.io/bcgov/nr-openmetadata=:main
+  # Abi: pull ghcr.io/bcgov/nr-openmetadata-opensearch:security-context-changes
   REGISTRY: ghcr.io
-  DOCKERFILE_PATH: charts/deps/containers/opensearch/busybox
-  IMAGE_NAME: ${{ github.repository }}-opensearch-busybox
+  DOCKERFILE_PATH: charts/deps/containers/opensearch
+  IMAGE_NAME: ${{ github.repository }}-opensearch
 
 jobs:
   build:
