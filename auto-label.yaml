@@ -8,18 +8,20 @@ metadata:
 spec:
   background: false
   failurePolicy: Ignore
+  validationFailureAction: audit
   rules:
-    - match:
-        any:
-          - resources:
-              kinds:
-                - Pod
-          - resources:
-              kinds:
-                - Pod
-      mutate:
-        patchStrategicMerge:
-          metadata:
-            labels:
-              DataClass: Medium
-      name: add-data-class-label
+  - match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+          selector:
+            matchLabels:
+              app.kubernetes.io/instance: mysql
+              app.kubernetes.io/app: opensearch
+    mutate:
+      patchStrategicMerge:
+        metadata:
+          labels:
+            DataClass: Medium
+    name: add-data-class-label
