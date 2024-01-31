@@ -22,7 +22,7 @@ roles:
 replicas: 1 # Abi: previously 3
 
 # if not set, falls back to parsing .Values.imageTag, then .Chart.appVersion.
-majorVersion: ""
+majorVersion: 2.7.0 # Abi: Chart.appversion = 2.7.0
 
 global:
   # Set if you want to change the default docker registry, e.g. a private one.
@@ -124,10 +124,10 @@ hostAliases: []
 #   - "bar.local"
 
 image:
-  repository: "opensearchproject/opensearch"
+  repository: ghcr.io/bcgov/nr-openmetadata-opensearch # Abi: previously "opensearchproject/opensearch"
   # override image tag, which is .Chart.AppVersion by default
-  tag: ""
-  pullPolicy: "IfNotPresent"
+  tag: security-context-changes # Abi: was previously defaulting to version # 2.7.0
+  pullPolicy: "Always"
 
 podAnnotations: {}
   # iam.amazonaws.com/role: es-cluster
@@ -190,11 +190,11 @@ podSecurityPolicy:
 persistence:
   enabled: true
   # Set to false to disable the `fsgroup-volume` initContainer that will update permissions on the persistent disk.
-  enableInitChown: true
+  enableInitChown: false # Abi: disables line 234 on the statefulset.yaml, as permissions are now handled with custom dockerfile for random UID
   # override image, which is busybox by default
-  # image: busybox
+  image: ghcr.io/bcgov/nr-openmetadata-opensearch-busybox # Abi: set to main branch after PR merge
   # override image tag, which is latest by default
-  # imageTag:
+  imageTag: security-context-changes # will become main
   labels:
     # Add default labels for the volumeClaimTemplate of the StatefulSet
     enabled: false
@@ -296,9 +296,9 @@ updateStrategy: RollingUpdate
 # of your pods to be unavailable during maintenance
 # maxUnavailable: 1 # Abi: removed PDB for now
 
-podSecurityContext: # Abi: removed runAsUser: 0 from statefulset.yaml
-  # fsGroup: 1000 # Abi: allow for random UID
-  # runAsUser: 1000 # Abi: allow for random UID
+podSecurityContext: # Abi: removed runAsUser: 0 from initContainer in statefulset.yaml
+  # fsGroup: 1000 # Abi: allow for GID=0
+  # runAsUser: 1000 # Abi: allow for random UID 
 
 securityContext:
   capabilities:
@@ -306,7 +306,7 @@ securityContext:
       - ALL
   # readOnlyRootFilesystem: true
   runAsNonRoot: true
-  # runAsUser: 1000 # Abi: allow for random UID
+  # runAsUser: 1000 # Abi: allow for random UID 
 
 securityConfig:
   enabled: true
@@ -375,7 +375,8 @@ readinessProbe:
 ##
 schedulerName: ""
 
-imagePullSecrets: []
+imagePullSecrets: 
+  - name: "artifactory-pull"
 nodeSelector: {}
 tolerations: []
 
