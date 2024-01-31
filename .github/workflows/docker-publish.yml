@@ -7,9 +7,8 @@ on:
 env:
   # Abi: pull ghcr.io/bcgov/nr-openmetadata=:main
   REGISTRY: ghcr.io
-  PATH: charts/deps/containers/opensearch/busybox
+  DOCKERFILE_PATH: charts/deps/containers/opensearch/busybox
   IMAGE_NAME: ${{ github.repository }}-opensearch-busybox
-  
 
 jobs:
   build:
@@ -54,7 +53,7 @@ jobs:
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
           # Abi: to help the action find the Dockerfile to build from
-          context: ${{ env.PATH }}/       
+          context: ${{ env.DOCKERFILE_PATH }}/       
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
