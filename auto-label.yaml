@@ -17,7 +17,7 @@ spec:
           - Pod
           selector:
             matchLabels:
-              ## WIP ##
+              app.kubernetes.io/instance: mysql
     mutate:
       patchStrategicMerge:
         metadata:
