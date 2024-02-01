@@ -4,7 +4,7 @@ metadata:
   annotations:
     policies.kyverno.io/subject: Label
     policies.kyverno.io/title: Add Labels to all OpenMetadata pods
-  name: add-openmetadata-labels
+  name: add-opensearch-labels
 spec:
   background: false
   failurePolicy: Ignore
@@ -17,8 +17,7 @@ spec:
           - Pod
           selector:
             matchLabels:
-              app.kubernetes.io/instance: mysql
-              app.kubernetes.io/app: opensearch
+              app.kubernetes.io/name: opensearch
     mutate:
       patchStrategicMerge:
         metadata:
