@@ -68,7 +68,7 @@ helm uninstall openmetadata-dependencies
 ```
 
 ## Deploying to OpenShift
-To deploy to OpenShift, using OC commands make sure Helm cli is installed on your local machine.
+To deploy to OpenShift, use OC commands and make sure Helm cli is installed on your local machine.
 ```
 brew install helm
 ```
@@ -79,36 +79,44 @@ Source: https://github.com/open-metadata/openmetadata-helm-charts/tree/main/char
 ```
 oc create secret generic airflow-mysql-secrets --from-literal=airflow-mysql-password=airflow_pass
 ```
-#### Add Helm repo to OS
+#### Deploy dependencies to OpenShift
+Navigate to the 'deps' chart folder then:
 ```
-helm repo add open-metadata https://helm.open-metadata.org
-```
-#### Deploy dependencies to OS
-```
-helm install openmetadata-dependencies open-metadata/openmetadata-dependencies
+helm install openmetadata-dependencies .
 ```
 If you see the below error then get admin access to the dev namespace
 Issues:  User "vikas.grover@gov.bc.ca" cannot get resource "roles" in API group "rbac.authorization.k8s.io" in the namespace "a1b9b0-dev"
 
 ### Install OpenMetadata
+Source: https://github.com/open-metadata/openmetadata-helm-charts/tree/main/charts/openmetadata
+
 #### Create default Secrets
 ```
 oc create secret generic mysql-secrets --from-literal=openmetadata-mysql-password=openmetadata_password
 oc create secret generic airflow-secrets --from-literal=openmetadata-airflow-password=admin
 ```
-#### Deploy Helm chart
+## Apply the pod label policies under 'oc' folder: 
 ```
-helm install openmetadata-dependencies open-metadata/openmetadata-dependencies --values charts/deps/values.yaml
-helm install openmetadata open-metadata/openmetadata --values charts/openmetadata/values.yaml
+oc apply -f [auto-label].yaml 
+```
+## Apply the network policies under 'oc' folder: 
+```
+oc apply -f [net-pol].yaml 
+```
+#### Deploy OpenMetadata to OpenShift:
+Navigate to the 'openmetadata' chart folder then:
+```
+helm install openmetadata .
+```
+#### Port Forward OpenMetadata to view UI
+```
+oc port-forward service/openmetadata 8585:http
 ```
 
-## Creating OpenShift ConfigMaps 
+##  OpenSearch Dockerfile and Use of GHCR
+OpenSearch requires a modified Dockerfile to work within the OpenShift restricted security context. The Dockerfile can be found under charts/containers/opensearch. The image is built automatically and pushed to the GHCR any time there is a push or PR to the **main** branch. 
 
-## Errors encountered
-
-
-
-create Pod mysql-0 in StatefulSet mysql failed error: pods "mysql-0" is forbidden: unable to validate against any security context constraint: [provider "trident-controller": Forbidden: not usable by user or serviceaccount, provider "anyuid": Forbidden: not usable by user or serviceaccount, provider "pipelines-scc": Forbidden: not usable by user or serviceaccount, provider restricted-v2: .spec.securityContext.fsGroup: Invalid value: []int64{1001}: 1001 is not an allowed group, provider restricted-v2: .containers[0].runAsUser: Invalid value: 1001: must be in the ranges: [1001900000, 1001909999], provider restricted: .spec.securityContext.fsGroup: Invalid value: []int64{1001}: 1001 is not an allowed group, provider restricted: .containers[0].runAsUser: Invalid value: 1001: must be in the ranges: [1001900000, 1001909999], provider "nonroot-v2": Forbidden: not usable by user or serviceaccount, provider "nonroot": Forbidden: not usable by user or serviceaccount, provider "hostmount-anyuid": Forbidden: not usable by user or serviceaccount, provider "elasticsearch-scc": Forbidden: not usable by user or serviceaccount, provider "log-collector-scc": Forbidden: not usable by user or serviceaccount, provider "machine-api-termination-handler": Forbidden: not usable by user or serviceaccount, provider "hostnetwork-v2": Forbidden: not usable by user or serviceaccount, provider "hostnetwork": Forbidden: not usable by user or serviceaccount, provider "hostaccess": Forbidden: not usable by user or serviceaccount, provider "trident-node-linux": Forbidden: not usable by user or serviceaccount, provider "node-exporter": Forbidden: not usable by user or serviceaccount, provider "privileged": Forbidden: not usable by user or serviceaccount]
-
-## To apply the pod labels policy: 
-oc apply -f auto-label.yaml 
+Usage example: 
+```sh
+docker pull ghcr.io/bcgov/nr-openmetadata-opensearch:main
+```
