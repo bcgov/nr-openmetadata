@@ -15,7 +15,7 @@ mysql:
   primary:
     extraFlags: "--sort_buffer_size=10M"
     persistence:
-      size: 50Gi
+      size: 500Mi # Abi: previously 50Gi
     service:
       nodePort: 3306
   initdbScripts:
@@ -40,7 +40,7 @@ opensearch:
   imagePullPolicy: Always
   opensearchJavaOpts: "-Xmx1g -Xms1g"
   persistence:
-    size: 30Gi
+    size: 500Mi # Abi: previously 30Gi 
   protocol: http
   config:
     opensearch.yml: |
@@ -60,7 +60,7 @@ airflow:
   enabled: true
   airflow:
     image:
-      repository: docker.getcollate.io/openmetadata/ingestion
+      repository: artifacts.developer.gov.bc.ca/docker-remote/openmetadata/ingestion
       tag: 1.2.5
       pullPolicy: "IfNotPresent"
     executor: "KubernetesExecutor"
@@ -77,9 +77,9 @@ airflow:
     - username: admin
       password: admin
       role: Admin
-      email: spiderman@superhero.org
-      firstName: Peter
-      lastName: Parker
+      email: NRM.DataFoundations@gov.bc.ca
+      firstName: NRM
+      lastName: Data Foundations
   web:
     extraVolumes:
     - name: pod-template
@@ -130,7 +130,7 @@ airflow:
       enabled: true
       # NOTE: "" means cluster-default
       storageClass: ""
-      size: 1Gi
+      size: 500Mi # Abi: previously 1Gi
       accessMode: ReadWriteMany
   logs:
     persistence:
@@ -138,4 +138,4 @@ airflow:
       # empty string means cluster-default
       storageClass: ""
       accessMode: ReadWriteMany
-      size: 1Gi
+      size: 500Mi # Abi: previously 1Gi
