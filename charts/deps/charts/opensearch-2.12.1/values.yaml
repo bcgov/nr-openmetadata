@@ -19,10 +19,10 @@ roles:
   - data
   - remote_cluster_client
 
-replicas: 1 # NOTE: previously 3
+replicas: 1 # DF-NOTE: previously 3
 
 # if not set, falls back to parsing .Values.imageTag, then .Chart.appVersion.
-majorVersion: 2.7.0 # NOTE: Chart.appVersion = 2.7.0
+majorVersion: 2.7.0 # DF-NOTE: Chart.appVersion = 2.7.0
 
 global:
   # Set if you want to change the default docker registry, e.g. a private one.
@@ -124,10 +124,10 @@ hostAliases: []
 #   - "bar.local"
 
 image:
-  repository: ghcr.io/bcgov/nr-openmetadata-opensearch # NOTE: previously "opensearchproject/opensearch"
+  repository: ghcr.io/bcgov/nr-openmetadata-opensearch # DF-NOTE: previously "opensearchproject/opensearch"
   # override image tag, which is .Chart.AppVersion by default
-  tag: main # NOTE: previously defaulting 2.7.0
-  pullPolicy: "Always" # NOTE: previously "IfNotPresent"
+  tag: main # DF-NOTE: previously defaulting 2.7.0
+  pullPolicy: "Always" # DF-NOTE: previously "IfNotPresent"
 
 podAnnotations: {}
   # iam.amazonaws.com/role: es-cluster
@@ -142,7 +142,7 @@ opensearchJavaOpts: "-Xmx512M -Xms512M"
 
 resources:
   requests:
-    cpu: "100m" # NOTE: lowered
+    cpu: "100m" # DF-NOTE: lowered
     memory: "100Mi"
 
 initResources: {}
@@ -190,7 +190,7 @@ podSecurityPolicy:
 persistence:
   enabled: true
   # Set to false to disable the `fsgroup-volume` initContainer that will update permissions on the persistent disk.
-  enableInitChown: false # NOTE: disables line 234 on the statefulset.yaml
+  enableInitChown: false # DF-NOTE: disables line 234 on the statefulset.yaml
   # override image, which is busybox by default
   # image: busybox:latest
   # override image tag, which is latest by default
@@ -208,7 +208,7 @@ persistence:
   # storageClass: "-"
   accessModes:
     - ReadWriteOnce
-  size: 500Mi # NOTE: previously 8Gi
+  size: 500Mi # DF-NOTE: previously 8Gi
   annotations: {}
 
 extraVolumes: []
@@ -294,11 +294,11 @@ updateStrategy: RollingUpdate
 # This is the max unavailable setting for the pod disruption budget
 # The default value of 1 will make sure that kubernetes won't allow more than 1
 # of your pods to be unavailable during maintenance
-# maxUnavailable: 1 # NOTE: removed PDB for now
+# maxUnavailable: 1 # DF-NOTE: removed PDB for now
 
 podSecurityContext: 
-  # fsGroup: 1000 # NOTE: allow for auto fsGroup
-  # runAsUser: 1000 # NOTE: allow for random UID 
+  # fsGroup: 1000 # DF-NOTE: allow for auto fsGroup
+  # runAsUser: 1000 # DF-NOTE: allow for random UID 
 
 securityContext:
   capabilities:
@@ -306,7 +306,7 @@ securityContext:
       - ALL
   # readOnlyRootFilesystem: true
   runAsNonRoot: true
-  # runAsUser: 1000 # NOTE: allow for random UID 
+  # runAsUser: 1000 # DF-NOTE: allow for random UID 
 
 securityConfig:
   enabled: true

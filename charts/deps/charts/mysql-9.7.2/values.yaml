@@ -296,7 +296,7 @@ primary:
   ## @param primary.podSecurityContext.fsGroup Group ID for the mounted volumes' filesystem
   ##
   podSecurityContext:
-    enabled: false # NOTE: OCP security context is set to 'restricted' by default
+    enabled: false # DF-NOTE: OCP security context is set to 'restricted' by default
     fsGroup: 1001
   ## MySQL primary container security context
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
@@ -305,7 +305,7 @@ primary:
   ## @param primary.containerSecurityContext.runAsNonRoot Set MySQL primary container's Security Context runAsNonRoot
   ##
   containerSecurityContext:
-    enabled: false # NOTE: OCP security context is set to 'restricted' by default
+    enabled: false # DF-NOTE: OCP security context is set to 'restricted' by default
     runAsUser: 1001
     runAsNonRoot: true
   ## MySQL primary container's resource requests and limits
@@ -440,7 +440,7 @@ primary:
       - ReadWriteOnce
     ## @param primary.persistence.size MySQL primary persistent volume size
     ##
-    size: 500Mi # NOTE: previously 8Gi
+    size: 500Mi # DF-NOTE: previously 8Gi
     ## @param primary.persistence.selector Selector to match an existing Persistent Volume
     ## selector:
     ##   matchLabels:
@@ -676,7 +676,7 @@ secondary:
   ## @param secondary.podSecurityContext.fsGroup Group ID for the mounted volumes' filesystem
   ##
   podSecurityContext:
-    enabled: false # NOTE: OCP security context is set to 'restricted' by default
+    enabled: false # DF-NOTE: OCP security context is set to 'restricted' by default
     fsGroup: 1001
   ## MySQL secondary container security context
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
@@ -685,7 +685,7 @@ secondary:
   ## @param secondary.containerSecurityContext.runAsNonRoot Set MySQL secondary container's Security Context runAsNonRoot
   ##
   containerSecurityContext:
-    enabled: false # NOTE: OCP security context is set to 'restricted' by default
+    enabled: false # DF-NOTE: OCP security context is set to 'restricted' by default
     runAsUser: 1001
     runAsNonRoot: true
   ## MySQL secondary container's resource requests and limits
@@ -820,7 +820,7 @@ secondary:
       - ReadWriteOnce
     ## @param secondary.persistence.size MySQL secondary persistent volume size
     ##
-    size: 500Mi # NOTE: previously 8Gi
+    size: 500Mi # DF-NOTE: previously 8Gi
     ## @param secondary.persistence.selector Selector to match an existing Persistent Volume
     ## selector:
     ##   matchLabels:
@@ -1060,7 +1060,7 @@ metrics:
   ## @param metrics.containerSecurityContext.runAsNonRoot Set MySQL metrics container's Security Context runAsNonRoot
   ##
   containerSecurityContext:
-    enabled: false # NOTE: OCP security context is set to 'restricted' by default
+    enabled: false # DF-NOTE: OCP security context is set to 'restricted' by default
     runAsUser: 1001
     runAsNonRoot: true
   ## MySQL Prometheus exporter service parameters

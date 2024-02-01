@@ -110,7 +110,8 @@ helm install openmetadata .
 ```
 #### Port Forward OpenMetadata to view UI
 ```
-oc port-forward service/openmetadata 8585:http
+
+
 ```
 
 ##  OpenSearch Dockerfile and Use of GHCR
@@ -122,4 +123,4 @@ docker pull ghcr.io/bcgov/nr-openmetadata-opensearch:main
 ```
 
 ## Helm chart modifications
-To review all Helm chart modifications (i.e. differences between the OpenMetadata default config and this config), search this repo for "NOTE:" annotations. 
+To review all Helm chart modifications (i.e. differences between the OpenMetadata default config and this config), search this repo for "DF-NOTE:" annotations. 
