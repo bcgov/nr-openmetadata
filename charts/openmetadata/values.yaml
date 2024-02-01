@@ -400,7 +400,7 @@ readinessProbe:
     path: /
     port: http
 startupProbe:
-  timeoutSeconds: 10 # Abi: Added this value, as it was timing out after 1 second
+  timeoutSeconds: 10 # NOTE: Added this value, as it was timing out after 1 second
   periodSeconds: 60
   failureThreshold: 5
   successThreshold: 1

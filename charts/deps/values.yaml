@@ -15,7 +15,7 @@ mysql:
   primary:
     extraFlags: "--sort_buffer_size=10M"
     persistence:
-      size: 500Mi # Abi: previously 50Gi
+      size: 500Mi # NOTE: previously 50Gi
     service:
       nodePort: 3306
   initdbScripts:
@@ -40,7 +40,7 @@ opensearch:
   imagePullPolicy: Always
   opensearchJavaOpts: "-Xmx1g -Xms1g"
   persistence:
-    size: 500Mi # Abi: previously 30Gi 
+    size: 500Mi # NOTE: previously 30Gi 
   protocol: http
   config:
     opensearch.yml: |
@@ -130,7 +130,7 @@ airflow:
       enabled: true
       # NOTE: "" means cluster-default
       storageClass: ""
-      size: 500Mi # Abi: previously 1Gi
+      size: 500Mi # NOTE: previously 1Gi
       accessMode: ReadWriteMany
   logs:
     persistence:
@@ -138,4 +138,4 @@ airflow:
       # empty string means cluster-default
       storageClass: ""
       accessMode: ReadWriteMany
-      size: 500Mi # Abi: previously 1Gi
+      size: 500Mi # NOTE: previously 1Gi

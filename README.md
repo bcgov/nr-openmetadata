@@ -114,9 +114,12 @@ oc port-forward service/openmetadata 8585:http
 ```
 
 ##  OpenSearch Dockerfile and Use of GHCR
-OpenSearch requires a modified Dockerfile to work within the OpenShift restricted security context. The Dockerfile can be found under charts/containers/opensearch. The image is built automatically and pushed to the GHCR any time there is a push or PR to the **main** branch. 
+OpenSearch requires a modified Dockerfile to work within the OpenShift restricted security context. The Dockerfile can be found under charts/opensearch-2.12.1/containers. The image is built automatically and pushed to the GHCR any time there is a push or PR to the **main** branch. 
 
 Usage example: 
 ```sh
 docker pull ghcr.io/bcgov/nr-openmetadata-opensearch:main
 ```
+
+## Helm chart modifications
+To review all Helm chart modifications (i.e. differences between the OpenMetadata default config and this config), search this repo for "NOTE:" annotations. 

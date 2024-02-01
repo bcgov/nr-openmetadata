@@ -2,12 +2,15 @@ name: Push to GHCR
 
 on:
   push:
-    branches: [ "security-context-changes" ]
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
 
 env:
-  # Abi: pull ghcr.io/bcgov/nr-openmetadata-opensearch:security-context-changes
+  # NOTE: pull ghcr.io/bcgov/nr-openmetadata-opensearch:main
   REGISTRY: ghcr.io
-  DOCKERFILE_PATH: charts/deps/containers/opensearch
+  DOCKERFILE_PATH: charts/opensearch-2.12.1/containers
   IMAGE_NAME: ${{ github.repository }}-opensearch
 
 jobs:
@@ -21,9 +24,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        # Abi: delete before merging PR
-        with: 
-          ref: security-context-changes
 
       - name: Install cosign
         if: github.event_name != 'pull_request'
@@ -52,7 +52,7 @@ jobs:
         id: build-and-push
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
-          # Abi: to help the action find the Dockerfile to build from
+          # NOTE: to help the action find the Dockerfile to build from
           context: ${{ env.DOCKERFILE_PATH }}/       
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}

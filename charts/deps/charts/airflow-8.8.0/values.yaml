@@ -209,7 +209,7 @@ airflow:
     ## sets the filesystem owner group of files/folders in mounted volumes
     ## this does NOT give root permissions to Pods, only the "root" group
     
-    # Abi: this causes error: securityContext.fsGroup: Invalid value: []int64{0}: 0 is not an allowed group
+    # NOTE: this caused error: securityContext.fsGroup: Invalid value: []int64{0}: 0 is not an allowed group
     # fsGroup: 0
 
   ## extra annotations for airflow Pods
