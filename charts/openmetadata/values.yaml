@@ -274,7 +274,7 @@ networkPolicy:
   #   callbackUrl: "<callback_url>"
 
 image:
-  repository: docker.getcollate.io/openmetadata/server
+  repository: artifacts.developer.gov.bc.ca/docker-remote/openmetadata/server
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
   pullPolicy: "Always"
@@ -304,7 +304,7 @@ serviceAccount:
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: ""
+  name: openmetadata-admin 
 automountServiceAccountToken: true
 podSecurityContext: {}
   # fsGroup: 2000
@@ -400,6 +400,7 @@ readinessProbe:
     path: /
     port: http
 startupProbe:
+  timeoutSeconds: 10 # Abi: Added this value, as it was timing out after 1 second
   periodSeconds: 60
   failureThreshold: 5
   successThreshold: 1
