@@ -20,6 +20,7 @@ openmetadata:
       port: 8585
       adminPort: 8586
     elasticsearch:
+      enabled: true
       host: opensearch
       searchType: opensearch
       port: 9200
@@ -42,6 +43,7 @@ openmetadata:
           secretRef: elasticsearch-secrets
           secretKey: openmetadata-elasticsearch-password
     database:
+      enabled: true
       host: mysql
       port: 3306
       driverClass: com.mysql.cj.jdbc.Driver
@@ -74,7 +76,12 @@ openmetadata:
         password:
           secretRef: airflow-secrets
           secretKey: openmetadata-airflow-password
+        trustStorePath: ""
+        trustStorePassword:
+          secretRef: ""
+          secretKey: ""
     authorizer:
+      enabled: true
       className: "org.openmetadata.service.security.DefaultAuthorizer"
       containerRequestFilter: "org.openmetadata.service.security.JwtFilter"
       initialAdmins:
@@ -85,12 +92,14 @@ openmetadata:
       enforcePrincipalDomain: false
       enableSecureSocketConnection: false
     authentication:
+      enabled: true
       provider: "basic"
       publicKeys:
       - "http://openmetadata:8585/api/v1/system/config/jwks"
       authority: "https://accounts.google.com"
       clientId: ""
       callbackUrl: ""
+      responseType: id_token
       jwtPrincipalClaims:
       - "email"
       - "preferred_username"
@@ -173,6 +182,7 @@ openmetadata:
       secretRef: ""
       secretKey: ""
     eventMonitor:
+      enabled: true
       # Possible values are prometheus and cloudwatch
       type: prometheus
       batchSize: 10
@@ -198,6 +208,7 @@ openmetadata:
         secretRef: ""
         secretKey: ""
     secretsManager:
+      enabled: true
       # Possible values are noop, aws, aws-ssm, managed-aws, managed-aws-ssm, in-memory
       provider: noop
       additionalParameters:
@@ -214,6 +225,7 @@ openmetadata:
       # --from-literal=aws-access-key-secret=<access_key_id_value> \
       # --from-literal=aws-secret-access-key-secret=<access_key_secret_value>
     web:
+      enabled: true
       uriPath: "/api"
       hsts:
         enabled: false
@@ -265,7 +277,7 @@ image:
   repository: artifacts.developer.gov.bc.ca/docker-remote/openmetadata/server
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
-  pullPolicy: "IfNotPresent"
+  pullPolicy: "Always"
 
 sidecars: []
 # - name: "busybox"
@@ -281,8 +293,7 @@ sidecars: []
 #     mountPath: /usr/share/extras
 #     readOnly: true
 
-imagePullSecrets:
-  - name: "artifactory-pull"
+imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: "openmetadata"
 
@@ -293,7 +304,8 @@ serviceAccount:
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: ""
+  name: openmetadata-admin 
+automountServiceAccountToken: true
 podSecurityContext: {}
   # fsGroup: 2000
 securityContext: {}
@@ -315,6 +327,7 @@ serviceMonitor:
   enabled: false
   interval: 30s
   annotations: {}
+  labels: {}
 
 ingress:
   enabled: false
@@ -348,7 +361,11 @@ extraVolumeMounts: []
 #   mountPath: /usr/share/extras
 #   readOnly: true
 
+# Provision for InitContainers to be running after the `run-db-migration` InitContainer
 extraInitContainers: []
+
+# Provision for InitContainers to be running before the `run-db-migration` InitContainer
+preMigrateInitContainers: []
 
 resources: {}
 # We usually recommend not to specify default resources and to leave this as a conscious
@@ -356,11 +373,11 @@ resources: {}
 # resources, such as Minikube. If you do want to specify resources, uncomment the following
 # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
 # limits:
-#   cpu: 100m
-#   memory: 128Mi
+#   cpu: 1
+#   memory: 2048Mi
 # requests:
-#   cpu: 100m
-#   memory: 128Mi
+#   cpu: 500m
+#   memory: 256Mi
 
 nodeSelector: {}
 
@@ -383,6 +400,7 @@ readinessProbe:
     path: /
     port: http
 startupProbe:
+  timeoutSeconds: 10 # DF-NOTE: Added this value, as it was timing out after 1 second
   periodSeconds: 60
   failureThreshold: 5
   successThreshold: 1
