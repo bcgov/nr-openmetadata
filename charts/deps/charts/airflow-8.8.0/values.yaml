@@ -23,7 +23,7 @@ airflow:
   ## - allowed values: "CeleryExecutor", "KubernetesExecutor", "CeleryKubernetesExecutor"
   ## - customize the "KubernetesExecutor" pod-template with `airflow.kubernetesPodTemplate.*`
   ##
-  executor: CeleryExecutor
+  executor: KubernetesExecutor # DF-NOTE: previously CeleryExecutor
 
   ## the fernet encryption key (sets `AIRFLOW__CORE__FERNET_KEY`)
   ## - [WARNING] you must change this value to ensure the security of your airflow
@@ -1325,7 +1325,7 @@ logs:
 
     ## the size of PVC to request
     ##
-    size: 1Gi
+    size: 500Mi # DF-NOTE: previously 1Gi
 
 ###################################
 ## CONFIG | Airflow DAGs
@@ -1363,7 +1363,7 @@ dags:
 
     ## the size of PVC to request
     ##
-    size: 1Gi
+    size: 500Mi # DF-NOTE: previously 1Gi
 
   ## configs for the git-sync sidecar (https://github.com/kubernetes/git-sync)
   ##
@@ -1949,7 +1949,7 @@ postgresql:
 
     ## the size of PVC to request
     ##
-    size: 8Gi
+    size: 500Mi # DF-NOTE: previously 8Gi
 
   ## configs for the postgres StatefulSet
   ##
@@ -2125,7 +2125,7 @@ redis:
 
       ## the size of PVC to request
       ##
-      size: 8Gi
+      size: 500Mi # DF-NOTE: previously 8Gi
 
   ## configs for the redis slave StatefulSet
   ## - only used if `redis.cluster.enabled` is `true`
@@ -2178,7 +2178,7 @@ redis:
 
       ## the size of PVC to request
       ##
-      size: 8Gi
+      size: 500Mi # DF-NOTE: previously 8Gi
 
 ###################################
 ## DATABASE | External Redis
