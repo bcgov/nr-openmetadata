@@ -98,10 +98,13 @@ Issues:  User "vikas.grover@gov.bc.ca" cannot get resource "roles" in API group 
 #### Deploy OpenMetadata to OpenShift
 Source: https://github.com/open-metadata/openmetadata-helm-charts/tree/main/charts/openmetadata
 
-Navigate to the 'openmetadata' chart folder then:
+Once all the dependencies are running, navigate to the 'openmetadata' chart folder then:
 ```
 helm install openmetadata .
 ```
+
+Note: Always delete old PVC before re-deploying. Old volumes will break new pods.
+
 #### Port forward OpenMetadata to view UI
 ```
 oc port-forward service/openmetadata 8585:http
