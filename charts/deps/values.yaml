@@ -46,13 +46,13 @@ opensearch:
     opensearch.yml: |
       plugins.security.disabled: true
   singleNode: true
-  resources:
+  resources: # DF-NOTE: Opensearch resource requirements
     requests:
-      cpu: "100m"
-      memory: "256M"
+      cpu: 100m
+      memory: 256Mi
     limits:
-      cpu: "2000m"
-      memory: "2048M"
+      cpu: 2000m
+      memory: 2048Mi
 
 # Airflow configurations for helm dependency
 # you can find more details about this here https://github.com/airflow-helm/charts
