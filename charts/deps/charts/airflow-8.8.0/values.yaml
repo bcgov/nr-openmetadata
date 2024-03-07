@@ -407,11 +407,11 @@ airflow:
     ##
     resources: # DF-NOTE: previously not enabled
       requests:
-        cpu: 10m
-        memory: 200Mi
+        cpu: 50m
+        memory: 250Mi
       limits:
-        cpu: 100m
-        memory: 300Mi
+        cpu: 300m
+        memory: 800Mi
 
     ## the nodeSelector configs for the db-migrations Pods
     ## - docs for nodeSelector:
@@ -477,8 +477,8 @@ airflow:
         cpu: 50m
         memory: 250Mi
       limits:
-        cpu: 150m
-        memory: 500Mi
+        cpu: 300m
+        memory: 800Mi
 
     ## the nodeSelector configs for the sync Pods
     ## - docs for nodeSelector:
@@ -539,11 +539,11 @@ scheduler:
   ##
   resources: # DF-NOTE: previously not enabled
     requests:
-      cpu: 50m
+      cpu: 100m
       memory: 250Mi
     limits:
-      cpu: 300m
-      memory: 600Mi
+      cpu: 500m
+      memory: 1Gi
 
   ## the nodeSelector configs for the scheduler Pods
   ## - docs for nodeSelector:
@@ -753,8 +753,8 @@ web:
         cpu: 100m
         memory: 250Mi
       limits:
-        cpu: 400m
-        memory: 800Mi
+        cpu: 500m
+        memory: 1Gi
   ## the nodeSelector configs for the web Pods
   ## - docs for nodeSelector:
   ##   https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
@@ -1085,8 +1085,8 @@ triggerer:
       cpu: 50m
       memory: 250Mi
     limits:
-      cpu: 300m
-      memory: 700Mi
+      cpu: 500m
+      memory: 1Gi
 
   ## the nodeSelector configs for the triggerer Pods
   ## - docs for nodeSelector:
