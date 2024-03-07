@@ -322,8 +322,8 @@ primary:
       cpu: 50m
       memory: 200Mi
     limits:
-      cpu: 100m
-      memory: 800Mi
+      cpu: 1000m
+      memory: 2Gi
     ## limits: {}
     ## Examples:
     ## requests:
@@ -390,8 +390,11 @@ primary:
   ## Can be used to specify command line flags, for example:
   ## E.g.
   ## extraFlags: "--max-connect-errors=1000 --max_connections=155"
-  ##
-  extraFlags: ""
+  ## extraFlags: ""
+
+  # DF-NOTE: testing lowering max connections on MySQL to reduce throttling
+  extraFlags: "--max_connections=15" # previously 155
+
   ## @param primary.extraEnvVars Extra environment variables to be set on MySQL primary containers
   ## E.g.
   ## extraEnvVars:
@@ -698,11 +701,11 @@ secondary:
   ##
   resources: # DF-NOTE: previously not enabled
     requests:
-      cpu: 100m
+      cpu: 50m
       memory: 200Mi
     limits:
-      cpu: 200m
-      memory: 800Mi
+      cpu: 1000m
+      memory: 2Gi
   ## Configure extra options for liveness probe
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes
   ## @param secondary.livenessProbe.enabled Enable livenessProbe
