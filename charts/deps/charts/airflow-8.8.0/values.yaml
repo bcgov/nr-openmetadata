@@ -543,7 +543,7 @@ scheduler:
       memory: 250Mi
     limits:
       cpu: 500m
-      memory: 1Gi
+      memory: 2Gi
 
   ## the nodeSelector configs for the scheduler Pods
   ## - docs for nodeSelector:
@@ -754,7 +754,7 @@ web:
         memory: 250Mi
       limits:
         cpu: 500m
-        memory: 1Gi
+        memory: 3Gi
   ## the nodeSelector configs for the web Pods
   ## - docs for nodeSelector:
   ##   https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
