@@ -15,7 +15,7 @@ mysql:
   primary:
     extraFlags: "--sort_buffer_size=10M"
     persistence:
-      size: 500Mi # DF-NOTE: previously 50Gi
+      size: 2Gi # DF-NOTE: previously 50Gi
     service:
       nodePort: 3306
   initdbScripts:
