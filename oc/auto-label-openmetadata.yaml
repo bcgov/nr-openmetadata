@@ -22,5 +22,5 @@ spec:
       patchStrategicMerge:
         metadata:
           labels:
-            DataClass: Medium
+            DataClass: Low
     name: add-data-class-label
