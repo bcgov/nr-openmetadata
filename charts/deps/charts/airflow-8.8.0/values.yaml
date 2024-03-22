@@ -312,8 +312,11 @@ airflow:
     resources: # DF-NOTE: previously not enabled
       requests:
         cpu: 10m
-        # cpu: 100m
-        # memory: 256Mi
+        memory: 256Mi
+      limits:
+        cpu: 200m
+        memory: 500Mi
+
 
     ## the nodeSelector configs for the Pod template
     ## - docs for nodeSelector:
@@ -629,7 +632,7 @@ scheduler:
         memory: 250Mi
       limits:
         cpu: 100m
-        memory: 500Mi
+        memory: 2560Mi
 
     ## the number of minutes to retain log files (by last-modified time)
     ##
@@ -754,7 +757,7 @@ web:
         memory: 250Mi
       limits:
         cpu: 500m
-        memory: 3Gi
+        memory: 2560Mi
   ## the nodeSelector configs for the web Pods
   ## - docs for nodeSelector:
   ##   https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
@@ -1086,7 +1089,7 @@ triggerer:
       memory: 250Mi
     limits:
       cpu: 500m
-      memory: 1Gi
+      memory:  1536Mi
 
   ## the nodeSelector configs for the triggerer Pods
   ## - docs for nodeSelector:
@@ -1364,7 +1367,7 @@ logs:
 
     ## the size of PVC to request
     ##
-    size: 500Mi # DF-NOTE: previously 1Gi
+    size: 600Mi # DF-NOTE: previously 1Gi
 
 ###################################
 ## CONFIG | Airflow DAGs
@@ -1402,7 +1405,7 @@ dags:
 
     ## the size of PVC to request
     ##
-    size: 500Mi # DF-NOTE: previously 1Gi
+    size: 50Mi # DF-NOTE: previously 1Gi
 
   ## configs for the git-sync sidecar (https://github.com/kubernetes/git-sync)
   ##
