@@ -346,9 +346,12 @@ ingress:
 
 extraEnvs:
 # DF-NOTE: These are to allow OpenMetadata to access the BCGov logo at https://www2.gov.bc.ca/images/BCID_H_rgb_pos.png
-  http_proxy: 'http://swpxkam.gov.bc.ca:8080'
-  https_proxy: 'http://swpxkam.gov.bc.ca:8080'
-  no_proxy: 'NO_PROXY=.cluster.local,.svc,10.91.0.0/16,172.30.0.0/16,127.0.0.1,localhost,.gov.bc.ca'
+  - name: http_proxy
+    value: 'http://swpxkam.gov.bc.ca:8080'
+  - name:  https_proxy
+    value: 'http://swpxkam.gov.bc.ca:8080'
+  - name: no_proxy
+    value: 'NO_PROXY=.cluster.local,.svc,10.91.0.0/16,172.30.0.0/16,127.0.0.1,localhost,.gov.bc.ca'
 
 envFrom: []
 # - secretRef:
