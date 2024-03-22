@@ -57,12 +57,4 @@ spec:
                     cpu: 50m
                     memory: 250Mi
   validationFailureAction: audit
-status:
-  conditions:
-    - lastTransitionTime: '2024-03-14T00:16:35Z'
-      message: ''
-      reason: Succeeded
-      status: 'True'
-      type: Ready
-  ready: true
 
