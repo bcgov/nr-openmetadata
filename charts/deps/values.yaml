@@ -15,7 +15,7 @@ mysql:
   primary:
     extraFlags: "--sort_buffer_size=10M"
     persistence:
-      size: 500Mi # DF-NOTE: previously 50Gi
+      size: 2Gi # DF-NOTE: previously 50Gi
     service:
       nodePort: 3306
   initdbScripts:
@@ -40,19 +40,19 @@ opensearch:
   imagePullPolicy: Always
   opensearchJavaOpts: "-Xmx1g -Xms1g"
   persistence:
-    size: 500Mi # DF-NOTE: previously 30Gi 
+    size: 50Mi # DF-NOTE: previously 30Gi
   protocol: http
   config:
     opensearch.yml: |
       plugins.security.disabled: true
   singleNode: true
-  resources:
+  resources: # DF-NOTE: Opensearch resource requirements
     requests:
-      cpu: "100m"
-      memory: "256M"
+      cpu: 100m
+      memory: 256Mi
     limits:
-      cpu: "2000m"
-      memory: "2048M"
+      cpu: 2000m
+      memory: 2048Mi
 
 # Airflow configurations for helm dependency
 # you can find more details about this here https://github.com/airflow-helm/charts
@@ -61,7 +61,7 @@ airflow:
   airflow:
     image:
       repository: artifacts.developer.gov.bc.ca/docker-remote/openmetadata/ingestion
-      tag: 1.2.5
+      tag: 1.3.1
       pullPolicy: "IfNotPresent"
     executor: "KubernetesExecutor"
     config:
@@ -104,7 +104,7 @@ airflow:
       timeoutSeconds: 10
       failureThreshold: 10
   postgresql:
-    enabled: false
+    enabled: true  # DF-NOTE: previously not enabled, uses Bitnami Postgres
   workers:
     enabled: false
   flower:
@@ -130,7 +130,7 @@ airflow:
       enabled: true
       # NOTE: "" means cluster-default
       storageClass: ""
-      size: 500Mi # DF-NOTE: previously 1Gi
+      size: 100Mi # DF-NOTE: previously 1Gi
       accessMode: ReadWriteMany
   logs:
     persistence:
@@ -138,4 +138,4 @@ airflow:
       # empty string means cluster-default
       storageClass: ""
       accessMode: ReadWriteMany
-      size: 500Mi # DF-NOTE: previously 1Gi
+      size: 1Gi

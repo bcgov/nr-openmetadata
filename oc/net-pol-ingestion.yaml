@@ -1,11 +1,11 @@
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: allow-openmetadata-opensearch
+  name: allow-openmetadata-ingestion
 spec:
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: opensearch
+      task_id: ingestion_task
   ingress:
     - {}
   egress:

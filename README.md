@@ -72,14 +72,22 @@ To deploy to OpenShift, use OC commands and make sure Helm cli is installed on y
 ```
 brew install helm
 ```
-### First install Dependencies
-Source: https://github.com/open-metadata/openmetadata-helm-charts/tree/main/charts/deps
 
-#### Create secrets
+### Apply all the network policies and pod label policies under 'oc' folder:
+Navigate to the 'oc' folder then:
+```
+oc apply -f .
+```
+
+#### Create default secrets
 ```
 oc create secret generic airflow-mysql-secrets --from-literal=airflow-mysql-password=airflow_pass
+oc create secret generic mysql-secrets --from-literal=openmetadata-mysql-password=openmetadata_password
+oc create secret generic airflow-secrets --from-literal=openmetadata-airflow-password=admin
 ```
 #### Deploy dependencies to OpenShift
+Source: https://github.com/open-metadata/openmetadata-helm-charts/tree/main/charts/deps
+
 Navigate to the 'deps' chart folder then:
 ```
 helm install openmetadata-dependencies .
@@ -87,31 +95,19 @@ helm install openmetadata-dependencies .
 If you see the below error then get admin access to the dev namespace
 Issues:  User "vikas.grover@gov.bc.ca" cannot get resource "roles" in API group "rbac.authorization.k8s.io" in the namespace "a1b9b0-dev"
 
-### Install OpenMetadata
+#### Deploy OpenMetadata to OpenShift
 Source: https://github.com/open-metadata/openmetadata-helm-charts/tree/main/charts/openmetadata
 
-#### Create default Secrets
-```
-oc create secret generic mysql-secrets --from-literal=openmetadata-mysql-password=openmetadata_password
-oc create secret generic airflow-secrets --from-literal=openmetadata-airflow-password=admin
-```
-## Apply the pod label policies under 'oc' folder: 
-```
-oc apply -f [auto-label].yaml 
-```
-## Apply the network policies under 'oc' folder: 
-```
-oc apply -f [net-pol].yaml 
-```
-#### Deploy OpenMetadata to OpenShift:
-Navigate to the 'openmetadata' chart folder then:
+Once all the dependencies are running, navigate to the 'openmetadata' chart folder then:
 ```
 helm install openmetadata .
 ```
-#### Port Forward OpenMetadata to view UI
+
+Note: Always delete old PVC before re-deploying. Old volumes will break new pods.
+
+#### Port forward OpenMetadata to view UI
 ```
-
-
+oc port-forward service/openmetadata 8585:http
 ```
 
 ##  OpenSearch Dockerfile and Use of GHCR
@@ -123,4 +119,4 @@ docker pull ghcr.io/bcgov/nr-openmetadata-opensearch:main
 ```
 
 ## Helm chart modifications
-To review all Helm chart modifications (i.e. differences between the OpenMetadata default config and this config), search this repo for "DF-NOTE:" annotations. 
+To review all Helm chart modifications (i.e. differences between the OpenMetadata default config and this config), search this repo for "DF-NOTE:" annotations.

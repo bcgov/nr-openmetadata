@@ -14,7 +14,7 @@ airflow:
     pullPolicy: IfNotPresent
     pullSecret: ""
     
-    # Abi this causes the error: runAsUser: Invalid value: 50000
+    # DF-NOTE: this causes the error: runAsUser: Invalid value: 50000
     # uid: 50000
 
     gid: 0
@@ -23,7 +23,7 @@ airflow:
   ## - allowed values: "CeleryExecutor", "KubernetesExecutor", "CeleryKubernetesExecutor"
   ## - customize the "KubernetesExecutor" pod-template with `airflow.kubernetesPodTemplate.*`
   ##
-  executor: CeleryExecutor
+  executor: KubernetesExecutor # DF-NOTE: previously CeleryExecutor
 
   ## the fernet encryption key (sets `AIRFLOW__CORE__FERNET_KEY`)
   ## - [WARNING] you must change this value to ensure the security of your airflow
@@ -309,7 +309,14 @@ airflow:
     ## - spec for ResourceRequirements:
     ##   https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#resourcerequirements-v1-core
     ##
-    resources: {}
+    resources: # DF-NOTE: previously not enabled
+      requests:
+        cpu: 10m
+        memory: 256Mi
+      limits:
+        cpu: 200m
+        memory: 500Mi
+
 
     ## the nodeSelector configs for the Pod template
     ## - docs for nodeSelector:
@@ -401,7 +408,13 @@ airflow:
     ## - spec for ResourceRequirements:
     ##   https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#resourcerequirements-v1-core
     ##
-    resources: {}
+    resources: # DF-NOTE: previously not enabled
+      requests:
+        cpu: 50m
+        memory: 250Mi
+      limits:
+        cpu: 300m
+        memory: 800Mi
 
     ## the nodeSelector configs for the db-migrations Pods
     ## - docs for nodeSelector:
@@ -462,7 +475,13 @@ airflow:
     ## - spec for ResourceRequirements:
     ##   https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#resourcerequirements-v1-core
     ##
-    resources: {}
+    resources: # DF-NOTE: previously not enabled
+      requests:
+        cpu: 50m
+        memory: 250Mi
+      limits:
+        cpu: 300m
+        memory: 800Mi
 
     ## the nodeSelector configs for the sync Pods
     ## - docs for nodeSelector:
@@ -521,7 +540,13 @@ scheduler:
   ## - spec of ResourceRequirements:
   ##   https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#resourcerequirements-v1-core
   ##
-  resources: {}
+  resources: # DF-NOTE: previously not enabled
+    requests:
+      cpu: 100m
+      memory: 250Mi
+    limits:
+      cpu: 500m
+      memory: 2Gi
 
   ## the nodeSelector configs for the scheduler Pods
   ## - docs for nodeSelector:
@@ -601,7 +626,13 @@ scheduler:
     ## - spec of ResourceRequirements:
     ##   https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#resourcerequirements-v1-core
     ##
-    resources: {}
+    resources: # DF-NOTE: previously not enabled
+      requests:
+        cpu: 10m
+        memory: 250Mi
+      limits:
+        cpu: 100m
+        memory: 2560Mi
 
     ## the number of minutes to retain log files (by last-modified time)
     ##
@@ -720,8 +751,13 @@ web:
   ## - spec for ResourceRequirements:
   ##   https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#resourcerequirements-v1-core
   ##
-  resources: {}
-
+  resources: # DF-NOTE: previously not enabled
+      requests:
+        cpu: 100m
+        memory: 250Mi
+      limits:
+        cpu: 500m
+        memory: 2560Mi
   ## the nodeSelector configs for the web Pods
   ## - docs for nodeSelector:
   ##   https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
@@ -1047,7 +1083,13 @@ triggerer:
   ## - spec for ResourceRequirements:
   ##   https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#resourcerequirements-v1-core
   ##
-  resources: {}
+  resources: # DF-NOTE: previously not enabled
+    requests:
+      cpu: 50m
+      memory: 250Mi
+    limits:
+      cpu: 500m
+      memory:  1536Mi
 
   ## the nodeSelector configs for the triggerer Pods
   ## - docs for nodeSelector:
@@ -1325,7 +1367,7 @@ logs:
 
     ## the size of PVC to request
     ##
-    size: 1Gi
+    size: 600Mi # DF-NOTE: previously 1Gi
 
 ###################################
 ## CONFIG | Airflow DAGs
@@ -1363,7 +1405,7 @@ dags:
 
     ## the size of PVC to request
     ##
-    size: 1Gi
+    size: 50Mi # DF-NOTE: previously 1Gi
 
   ## configs for the git-sync sidecar (https://github.com/kubernetes/git-sync)
   ##
@@ -1949,7 +1991,7 @@ postgresql:
 
     ## the size of PVC to request
     ##
-    size: 8Gi
+    size: 500Mi # DF-NOTE: previously 8Gi
 
   ## configs for the postgres StatefulSet
   ##
@@ -2042,7 +2084,7 @@ redis:
   ## - set to `false` if `airflow.executor` is `KubernetesExecutor`
   ## - set to `false` if using `externalRedis.*`
   ##
-  enabled: true
+  enabled: false # DF-NOTE: not needed for KubernetesExecutor
 
   ## configs for the redis container image
   ##
@@ -2125,7 +2167,7 @@ redis:
 
       ## the size of PVC to request
       ##
-      size: 8Gi
+      size: 500Mi # DF-NOTE: previously 8Gi
 
   ## configs for the redis slave StatefulSet
   ## - only used if `redis.cluster.enabled` is `true`
@@ -2178,7 +2220,7 @@ redis:
 
       ## the size of PVC to request
       ##
-      size: 8Gi
+      size: 500Mi # DF-NOTE: previously 8Gi
 
 ###################################
 ## DATABASE | External Redis
