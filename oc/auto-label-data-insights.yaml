@@ -1,7 +1,7 @@
 apiVersion: kyverno.io/v1
 kind: Policy
 metadata:
-  name: add-profiler-labels
+  name: add-data-insight-labels
 spec:
   background: false
   failurePolicy: Ignore
@@ -13,7 +13,7 @@ spec:
                 - Pod
               selector:
                 matchLabels:
-                  task_id: profiler_task
+                  task_id: data_insight_task
       mutate:
         patchStrategicMerge:
           metadata:
